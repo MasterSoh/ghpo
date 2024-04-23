@@ -5,94 +5,203 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, {useEffect} from 'react';
+import {StyleSheet, Text, useColorScheme, View, Button} from 'react-native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const TopTab = createMaterialTopTabNavigator();
+const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+function HomeScreen() {
+  const navigation = useNavigation();
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  console.log('Home Screen');
+  useEffect(() => {
+    console.log('Home Screen (Once)');
+  }, []);
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Home Screen</Text>
+      <Button
+        title="Go to Profile"
+        onPress={() => navigation.navigate('Profile')}
+      />
     </View>
+  );
+}
+
+function ProfileScreen() {
+  console.log('Profile Screen');
+  useEffect(() => {
+    console.log('Profile Screen (Once)');
+  }, []);
+
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Profile Screen</Text>
+    </View>
+  );
+}
+
+function HomeStack() {
+  console.log('Home Stack');
+  useEffect(() => {
+    console.log('Home Stack (Once)');
+  }, []);
+
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function ProductStack() {
+  return (
+    <TopTab.Navigator>
+      <TopTab.Screen name="Product" component={ProductScreen} />
+      <TopTab.Screen name="Listing" component={ListingScreen} />
+    </TopTab.Navigator>
+  );
+}
+
+function AccountScreen() {
+  const navigation = useNavigation();
+
+  console.log('Account Screen');
+  useEffect(() => {
+    console.log('Account Screen (Once)');
+  }, []);
+
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Account Screen</Text>
+      <Button
+        title="Go to Profile"
+        onPress={() =>
+          navigation.navigate('HomeStack', {
+            screen: 'Profile',
+          })
+        }
+      />
+    </View>
+  );
+}
+
+function ProductScreen() {
+  const navigation = useNavigation();
+
+  console.log('Product Screen');
+  useEffect(() => {
+    console.log('Product Screen (Once)');
+  }, []);
+
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Product Screen</Text>
+      <Button
+        title="Go to Profile"
+        onPress={() => navigation.navigate('Profile')}
+      />
+    </View>
+  );
+}
+
+function ListingScreen() {
+  const navigation = useNavigation();
+
+  console.log('Listing Screen');
+  useEffect(() => {
+    console.log('Listing Screen (Once)');
+  }, []);
+
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Listing Screen</Text>
+      <Button
+        title="Go to Profile"
+        onPress={() => navigation.navigate('Profile')}
+      />
+    </View>
+  );
+}
+
+function SearchScreen() {
+  const navigation = useNavigation();
+
+  console.log('Search Screen');
+  useEffect(() => {
+    console.log('Search Screen (Once)');
+  }, []);
+
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Search Screen</Text>
+      <Button
+        title="Go to Profile"
+        onPress={() => navigation.navigate('Profile')}
+      />
+    </View>
+  );
+}
+
+function SettingScreen() {
+  const navigation = useNavigation();
+
+  console.log('Setting Screen');
+  useEffect(() => {
+    console.log('Setting Screen (Once)');
+  }, []);
+
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Setting Screen</Text>
+      <Button
+        title="Go to Profile"
+        onPress={() => navigation.navigate('Profile')}
+      />
+    </View>
+  );
+}
+
+function RootTab() {
+  console.log('Root');
+  useEffect(() => {
+    console.log('Root (Once)');
+  }, []);
+
+  return (
+    <Tab.Navigator screenOptions={{headerShown: false}}>
+      <Tab.Screen name="HomeStack" component={HomeStack} />
+      <Tab.Screen name="Account" component={AccountScreen} />
+      <Tab.Screen name="ProductStack" component={ProductStack} />
+      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="Setting" component={SettingScreen} />
+    </Tab.Navigator>
   );
 }
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Drawer.Navigator>
+        <Drawer.Screen
+          name="Root"
+          options={{title: 'GHPO APP'}}
+          component={RootTab}
+        />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
 
